@@ -773,14 +773,17 @@
                                         </textFieldCell>
                                     </textField>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="61u-zd-3fB">
-                                        <rect key="frame" x="787" y="36" width="33" height="33"/>
+                                        <rect key="frame" x="786" y="17" width="22" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="33" id="5rg-nI-Bg7"/>
-                                            <constraint firstAttribute="height" constant="33" id="ldV-Hx-5Ss"/>
+                                            <constraint firstAttribute="height" constant="22" id="AyA-Ja-Tfd"/>
+                                            <constraint firstAttribute="width" constant="22" id="pwV-BT-aFN"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="settings" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="B1D-1w-ZsQ">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="Unlock" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="B1D-1w-ZsQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
+                                            <connections>
+                                                <action selector="lockButtonDidPush:" target="XfG-lQ-9wD" id="v63-gB-KkQ"/>
+                                            </connections>
                                         </buttonCell>
                                     </button>
                                 </subviews>
@@ -793,6 +796,7 @@
                                     <constraint firstItem="eHV-pZ-0w3" firstAttribute="leading" secondItem="12P-Mr-w6X" secondAttribute="trailing" id="Cfp-ys-Jeo"/>
                                     <constraint firstItem="eHV-pZ-0w3" firstAttribute="bottom" secondItem="12P-Mr-w6X" secondAttribute="bottom" id="Dya-zd-aZp"/>
                                     <constraint firstItem="tMQ-KQ-g3X" firstAttribute="top" secondItem="chc-ss-Xr3" secondAttribute="top" id="HoY-12-5A1"/>
+                                    <constraint firstItem="61u-zd-3fB" firstAttribute="centerY" secondItem="0xG-iF-m86" secondAttribute="centerY" id="Hzv-VV-qez"/>
                                     <constraint firstItem="Fkb-M7-kLB" firstAttribute="top" secondItem="miX-ts-iNO" secondAttribute="top" constant="20" id="IQI-V7-sbF"/>
                                     <constraint firstItem="12P-Mr-w6X" firstAttribute="leading" secondItem="DDd-bL-cGR" secondAttribute="leading" id="K6U-Lz-TH2"/>
                                     <constraint firstItem="Fkb-M7-kLB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DDd-bL-cGR" secondAttribute="trailing" priority="800" constant="8" id="N2V-H5-8V1"/>
@@ -801,8 +805,6 @@
                                     <constraint firstItem="DDd-bL-cGR" firstAttribute="top" secondItem="dgS-0x-5A3" secondAttribute="bottom" constant="16" id="PcW-Ya-t82"/>
                                     <constraint firstItem="56H-MQ-flF" firstAttribute="top" secondItem="miX-ts-iNO" secondAttribute="top" constant="20" id="QHE-eV-mb4"/>
                                     <constraint firstItem="chc-ss-Xr3" firstAttribute="leading" secondItem="eHV-pZ-0w3" secondAttribute="trailing" id="RF4-dP-Snd"/>
-                                    <constraint firstItem="61u-zd-3fB" firstAttribute="top" secondItem="miX-ts-iNO" secondAttribute="top" constant="195" id="SgE-yX-Qwe"/>
-                                    <constraint firstAttribute="trailing" secondItem="61u-zd-3fB" secondAttribute="trailing" constant="32" id="TJH-n9-wra"/>
                                     <constraint firstItem="0xG-iF-m86" firstAttribute="top" secondItem="Fkb-M7-kLB" secondAttribute="bottom" constant="8" id="VfL-aA-Hhd"/>
                                     <constraint firstItem="0xG-iF-m86" firstAttribute="trailing" secondItem="Fkb-M7-kLB" secondAttribute="trailing" id="Zbr-3a-F20"/>
                                     <constraint firstItem="8IQ-x6-kaY" firstAttribute="bottom" secondItem="tMQ-KQ-g3X" secondAttribute="bottom" id="c7M-s1-4Zi"/>
@@ -814,6 +816,7 @@
                                     <constraint firstItem="56H-MQ-flF" firstAttribute="leading" secondItem="miX-ts-iNO" secondAttribute="leading" constant="20" id="moC-fj-9SE"/>
                                     <constraint firstItem="dgS-0x-5A3" firstAttribute="leading" secondItem="56H-MQ-flF" secondAttribute="trailing" constant="16" id="o0Q-Ar-6iF"/>
                                     <constraint firstAttribute="bottom" secondItem="0xG-iF-m86" secondAttribute="bottom" constant="20" id="omn-JO-mWw"/>
+                                    <constraint firstItem="61u-zd-3fB" firstAttribute="trailing" secondItem="Fkb-M7-kLB" secondAttribute="trailing" id="rkZ-kD-OWV"/>
                                     <constraint firstItem="8IQ-x6-kaY" firstAttribute="top" secondItem="tMQ-KQ-g3X" secondAttribute="top" id="uOQ-3h-ZtK"/>
                                     <constraint firstItem="0xG-iF-m86" firstAttribute="leading" secondItem="Fkb-M7-kLB" secondAttribute="leading" id="wxv-6T-WQB"/>
                                     <constraint firstItem="dgS-0x-5A3" firstAttribute="centerY" secondItem="56H-MQ-flF" secondAttribute="centerY" constant="-44" id="yRc-ME-tWM"/>
@@ -889,6 +892,7 @@
                             <constraint firstItem="miX-ts-iNO" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="MHu-Za-Svg"/>
                             <constraint firstAttribute="bottom" secondItem="dO0-FI-EJr" secondAttribute="bottom" id="Oeo-lY-xrn"/>
                             <constraint firstItem="dO0-FI-EJr" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="R2a-Vv-rId"/>
+                            <constraint firstItem="C6U-9X-VPU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="miX-ts-iNO" secondAttribute="bottom" constant="107" id="VXI-4U-5St"/>
                             <constraint firstItem="C6U-9X-VPU" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="bvW-Nc-32f"/>
                             <constraint firstAttribute="trailing" secondItem="dO0-FI-EJr" secondAttribute="trailing" id="jj5-FB-t0n"/>
                         </constraints>
@@ -900,6 +904,7 @@
                         <outlet property="cameraView" destination="Fkb-M7-kLB" id="hba-Nx-I1j"/>
                         <outlet property="emotionLabel" destination="0xG-iF-m86" id="eXZ-cE-9sq"/>
                         <outlet property="lastTrack" destination="ccp-6k-jKQ" id="Ang-6B-PA0"/>
+                        <outlet property="lockEmotion" destination="61u-zd-3fB" id="Jyq-JZ-LRv"/>
                         <outlet property="nextTrack" destination="MK7-hZ-hIi" id="uUB-4V-jNm"/>
                         <outlet property="star1" destination="12P-Mr-w6X" id="fdD-qS-lT0"/>
                         <outlet property="star2" destination="eHV-pZ-0w3" id="lKo-aB-Urn"/>
@@ -915,11 +920,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Unlock" width="100" height="100"/>
         <image name="demoCover" width="300" height="300"/>
         <image name="lastSong" width="175" height="200"/>
         <image name="nextSong" width="175" height="200"/>
         <image name="pause" width="156" height="200"/>
-        <image name="settings" width="200" height="200"/>
         <image name="star" width="215" height="200"/>
     </resources>
 </document>

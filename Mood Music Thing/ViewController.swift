@@ -16,6 +16,7 @@ class ViewController: NSViewController, TrackObjectDelegate {
 
     @IBOutlet weak var lastTrack: NSButton!
     @IBOutlet weak var nextTrack: NSButton!
+    @IBOutlet weak var lockEmotion: NSButton!
 
     @IBOutlet weak var albumCoverImageView: NSImageView!
     @IBOutlet weak var backgroundCoverImageView: ApectRatioFillImageView!
@@ -51,6 +52,12 @@ class ViewController: NSViewController, TrackObjectDelegate {
     }
 
     func process(emotion: Emotion, strength: Double, nextSong: Bool) {
+        var emotion = emotion
+
+        if isLocked && currentlyPlaying != nil {
+            emotion = Emotion(rawValue: currentlyPlaying!.mood)
+        }
+
         guard let accessToken = spotifyAccessToken else {
             return
         }
@@ -154,6 +161,18 @@ class ViewController: NSViewController, TrackObjectDelegate {
     }
 
     // MARK: - Buttons
+
+    var isLocked = false
+    @IBAction func lockButtonDidPush(_ sender: AnyObject) {
+        if isLocked {
+            isLocked = false
+            lockEmotion.image = #imageLiteral(resourceName: "Unlock")
+        }
+        else {
+            isLocked = true
+            lockEmotion.image = #imageLiteral(resourceName: "Lock")
+        }
+    }
 
     @IBAction func previousSongDidPush(_ sender: AnyObject) {
         if let lastPlayed = songPlaylist.last {
