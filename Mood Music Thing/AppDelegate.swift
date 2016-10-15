@@ -10,17 +10,28 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    func handleURL(event: NSAppleEventDescriptor, replyEvent: NSAppleEventDescriptor) {
+        guard let urlString = event.paramDescriptor(forKeyword: keyDirectObject)?.stringValue,
+            let urlComponents = URLComponents(string: urlString),
+            let fragment = urlComponents.fragment
+        else {
+            return
+        }
 
+        let pairs = fragment.characters.split(separator: "&")
+        for pair in pairs {
+            let components = pair.split(separator: "=")
+            let key = String(components[0])
+            let value = String(components[1])
 
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+            if key == "access_token" {
+                UserDefaults.standard.set(value, forKey: SpotifyAccessTokenKey)
+            }
+        }
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(handleURL), forEventClass: UInt32(kInternetEventClass), andEventID: UInt32(kAEGetURL))
     }
-
-
 }
 
