@@ -12,13 +12,33 @@ import Cocoa
 let SpotifyAccessTokenKey = "SpotifyAccessToken"
 var SpotifyAccessTokenKVOContext: UInt8 = 0
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, TrackObjectDelegate {
+
+    @IBOutlet weak var lastTrack: NSButton!
+    @IBOutlet weak var nextTrack: NSButton!
+
+    @IBOutlet weak var albumCoverImageView: NSImageView!
+    @IBOutlet weak var backgroundCoverImageView: ApectRatioFillImageView!
+    @IBOutlet weak var trackTitleLabel: NSTextField!
+    @IBOutlet weak var artistLabel: NSTextField!
+
+    @IBOutlet weak var star1: NSImageView!
+    @IBOutlet weak var star2: NSImageView!
+    @IBOutlet weak var star3: NSImageView!
+    @IBOutlet weak var star4: NSImageView!
+    @IBOutlet weak var star5: NSImageView!
+    var stars: [NSImageView] = []
+
+    @IBOutlet weak var emotionLabel: NSTextField!
+    @IBOutlet weak var cameraView: NSView!
+
     var captureSession: AVCaptureSession!
     var stillImageOutput: AVCaptureStillImageOutput!
     var previewLayer: AVCaptureVideoPreviewLayer!
     let session = URLSession(configuration: .default, delegate: nil, delegateQueue: nil)
 
     var currentlyPlaying: TrackObject?
+    var songPlaylist = [TrackObject]()
 
     var spotifyAccessToken: String? {
         didSet {
@@ -30,11 +50,13 @@ class ViewController: NSViewController {
         }
     }
 
-    func process(emotion: Emotion, strength: Double) {
-        print(emotion.rawValue)
-
+    func process(emotion: Emotion, strength: Double, nextSong: Bool) {
         guard let accessToken = spotifyAccessToken else {
             return
+        }
+
+        DispatchQueue.main.async {
+            self.emotionLabel.stringValue = emotion.rawValue.capitalized
         }
 
         let url: URL
@@ -75,18 +97,102 @@ class ViewController: NSViewController {
                 let playlistTrack = tracks[Int(arc4random_uniform(UInt32(tracks.count)))]
                 if let track = playlistTrack["track"] as? [String : Any]{
 
-                    if self.currentlyPlaying?.mood! != emotion.rawValue {
-                        self.currentlyPlaying = TrackObject(json: track, mood: emotion.rawValue)
-                        SpotifyHelper.playTrack(self.currentlyPlaying!.uri!, inContext: nil)
-                    }
-                    else {
-                        self.currentlyPlaying = TrackObject(json: track, mood: emotion.rawValue)
+                    if self.currentlyPlaying?.mood! != emotion.rawValue || nextSong {
+                        DispatchQueue.main.async {
+                            self.albumCoverImageView.image = nil
+                            self.backgroundCoverImageView.image = nil
+
+                            // Append the previous one before overwritting
+                            if let lastPlayed = self.currentlyPlaying {
+                                self.songPlaylist.append(lastPlayed)
+                            }
+
+                            self.currentlyPlaying = TrackObject(json: track, mood: emotion.rawValue)
+                            self.updateUI()
+
+                            SpotifyHelper.playTrack(self.currentlyPlaying!.uri!, inContext: nil)
+                        }
                     }
                 }
             }
         }
         task.resume()
     }
+
+    func imageLoaded(image: NSImage) {
+        let popularity = currentlyPlaying!.popularity!/2/10
+
+        DispatchQueue.main.async {
+
+            for index in 1...5 {
+                if popularity >= index {
+                    self.stars[index - 1].alphaValue = 1.0
+                }
+                else {
+                    self.stars[index - 1].alphaValue = 0.0
+                }
+            }
+
+            self.albumCoverImageView.image = image
+            self.backgroundCoverImageView.image = image
+
+            self.albumCoverImageView.layer?.cornerRadius = 5
+
+        }
+    }
+
+    func updateUI() {
+        DispatchQueue.main.async {
+            self.albumCoverImageView.image = nil
+            self.backgroundCoverImageView.image = nil
+
+            self.currentlyPlaying?.delegate = self
+
+            self.trackTitleLabel.stringValue = self.currentlyPlaying!.name!
+            self.artistLabel.stringValue = self.currentlyPlaying!.artistName!
+        }
+    }
+
+    // MARK: - Buttons
+
+    @IBAction func previousSongDidPush(_ sender: AnyObject) {
+        if let lastPlayed = songPlaylist.last {
+            songPlaylist.removeLast()
+            self.currentlyPlaying = lastPlayed
+            self.currentlyPlaying?.startDownload()
+
+            updateUI()
+            SpotifyHelper.playTrack(lastPlayed.uri!, inContext: nil)
+        }
+    }
+
+
+    var isPaused = false
+    @IBAction func pauseButtonDidPush(_ sender: NSButton) {
+        if isPaused {
+            isPaused = false
+            lastTrack.alphaValue = 1.0
+            nextTrack.alphaValue = 1.0
+            sender.image = #imageLiteral(resourceName: "pause")
+            SpotifyHelper.resume()
+        }
+        else {
+            isPaused = true
+            lastTrack.alphaValue = 0
+            nextTrack.alphaValue = 0
+            sender.image = #imageLiteral(resourceName: "resume")
+            SpotifyHelper.pause()
+        }
+    }
+
+    @IBAction func nextSongDidPush(_ sender: AnyObject) {
+        if let currentEmotion = currentlyPlaying?.mood {
+            process(emotion: Emotion(rawValue: currentEmotion), strength: 1, nextSong: true)
+        }
+    }
+
+
+    // MARK: - Configuration
 
     func configureCaptureSession() {
         captureSession = AVCaptureSession()
@@ -112,13 +218,12 @@ class ViewController: NSViewController {
 
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        previewLayer.frame = view.bounds
+        previewLayer.frame = cameraView.bounds
         previewLayer.connection.automaticallyAdjustsVideoMirroring = false
         previewLayer.connection.isVideoMirrored = true
 
-        let rootLayer = view.layer!
-        rootLayer.backgroundColor = NSColor.black.cgColor
-        rootLayer.addSublayer(previewLayer)
+        previewLayer.cornerRadius = 5
+        cameraView.layer = previewLayer
     }
 
     func recognizeImage(with data: Data) {
@@ -133,8 +238,8 @@ class ViewController: NSViewController {
             guard let strongSelf = self,
                 let data = data,
                 let json = (try? JSONSerialization.jsonObject(with: data))
-            else {
-                return
+                else {
+                    return
             }
 
             if let faces = json as? [Any] {
@@ -147,7 +252,7 @@ class ViewController: NSViewController {
                 let maxIndex = scores.indices.max(by: { i, j in scores[i].value < scores[j].value })
                 if let maxIndex = maxIndex {
                     let (emotion, score) = scores[maxIndex]
-                    strongSelf.process(emotion: emotion, strength: score / Double(faceScores.count))
+                    strongSelf.process(emotion: emotion, strength: score / Double(faceScores.count), nextSong: false)
                 }
             }
         }
@@ -203,16 +308,15 @@ class ViewController: NSViewController {
 
         configureCaptureSession()
         configureTimer()
-
+        
         UserDefaults.standard.addObserver(self, forKeyPath: SpotifyAccessTokenKey, options: [.new, .initial], context: &SpotifyAccessTokenKVOContext)
-    }
-
-    override func viewWillLayout() {
-        super.viewWillLayout()
-
-        let enabled = CATransaction.disableActions()
-        CATransaction.setDisableActions(true)
-        previewLayer.frame = view.bounds
-        CATransaction.setDisableActions(enabled)
+        
+        albumCoverImageView.wantsLayer = true
+        albumCoverImageView.layer?.masksToBounds = true
+        albumCoverImageView.layer?.cornerRadius = 5
+        
+        backgroundCoverImageView.image = NSImage(named: "demoCover")
+        
+        stars = [star1, star2, star3, star4, star5]
     }
 }

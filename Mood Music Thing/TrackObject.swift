@@ -8,6 +8,10 @@
 
 import Cocoa
 
+protocol TrackObjectDelegate: class {
+    func imageLoaded(image: NSImage)
+}
+
 class TrackObject {
     var name: String?
     var artistName: String?
@@ -19,6 +23,10 @@ class TrackObject {
     var popularity: Int?
 
     var mood: String!
+
+    var cover: NSImage?
+
+    weak var delegate: TrackObjectDelegate?
 
     convenience init(json track: [String : Any], mood: String){
         self.init()
@@ -44,6 +52,10 @@ class TrackObject {
             if let images = albumElement["images"] as? [[String : Any]] {
                 let image = images.first
                 self.albumCoverURL = image?["url"] as? String
+
+                if let url = URL(string: self.albumCoverURL!) {
+                    downloadImage(url: url)
+                }
             }
         }
 
@@ -51,4 +63,32 @@ class TrackObject {
 
         self.mood = mood
     }
+
+    func startDownload() {
+        if let url = URL(string: self.albumCoverURL!) {
+            downloadImage(url: url)
+        }
+    }
+
+    func downloadImage(url: URL) {
+        print("Download Started")
+        getDataFromUrl(url: url) { (data, response, error)  in
+            DispatchQueue.main.sync() { () -> Void in
+                guard let data = data, error == nil else { return }
+                print(response?.suggestedFilename ?? url.lastPathComponent)
+                print("Download Finished")
+
+                self.cover = NSImage(data: data)
+                self.delegate?.imageLoaded(image: self.cover!)
+            }
+        }
+    }
+
+    func getDataFromUrl(url: URL, completion: @escaping (_ data: Data?, _  response: URLResponse?, _ error: Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) {
+            (data, response, error) in
+            completion(data, response, error)
+            }.resume()
+    }
+
 }

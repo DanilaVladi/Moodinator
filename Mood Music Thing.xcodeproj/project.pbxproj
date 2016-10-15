@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		64E49E971DB29939005DA580 /* SpotifyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E49E961DB29939005DA580 /* SpotifyHelper.m */; };
 		64E49E9B1DB2B49B005DA580 /* TrackObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E49E9A1DB2B49B005DA580 /* TrackObject.swift */; };
+		64E49EA21DB2CB21005DA580 /* ApectRatioFillImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E49EA11DB2CB21005DA580 /* ApectRatioFillImageView.swift */; };
 		836C17E01DB248DA00FFEACF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836C17DF1DB248DA00FFEACF /* AppDelegate.swift */; };
 		836C17E21DB248DA00FFEACF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836C17E11DB248DA00FFEACF /* ViewController.swift */; };
 		836C17E41DB248DA00FFEACF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 836C17E31DB248DA00FFEACF /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 		64E49E961DB29939005DA580 /* SpotifyHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpotifyHelper.m; sourceTree = "<group>"; };
 		64E49E991DB299C6005DA580 /* Spotify.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Spotify.h; sourceTree = "<group>"; };
 		64E49E9A1DB2B49B005DA580 /* TrackObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackObject.swift; sourceTree = "<group>"; };
+		64E49EA11DB2CB21005DA580 /* ApectRatioFillImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApectRatioFillImageView.swift; sourceTree = "<group>"; };
 		836C17DC1DB248DA00FFEACF /* Mood Music Thing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mood Music Thing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		836C17DF1DB248DA00FFEACF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		836C17E11DB248DA00FFEACF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,11 +68,12 @@
 				836C17EE1DB25CF400FFEACF /* Face.swift */,
 				836C17E81DB248DA00FFEACF /* Info.plist */,
 				836C17E51DB248DA00FFEACF /* Main.storyboard */,
-				836C17E11DB248DA00FFEACF /* ViewController.swift */,
 				64E49E991DB299C6005DA580 /* Spotify.h */,
 				64E49E9A1DB2B49B005DA580 /* TrackObject.swift */,
+				836C17E11DB248DA00FFEACF /* ViewController.swift */,
 				64E49E951DB29939005DA580 /* SpotifyHelper.h */,
 				64E49E961DB29939005DA580 /* SpotifyHelper.m */,
+				64E49EA11DB2CB21005DA580 /* ApectRatioFillImageView.swift */,
 				64E49E941DB29939005DA580 /* Mood Music Thing-Bridging-Header.h */,
 			);
 			path = "Mood Music Thing";
@@ -154,6 +157,7 @@
 				836C17E21DB248DA00FFEACF /* ViewController.swift in Sources */,
 				836C17EF1DB25CF400FFEACF /* Face.swift in Sources */,
 				836C17E01DB248DA00FFEACF /* AppDelegate.swift in Sources */,
+				64E49EA21DB2CB21005DA580 /* ApectRatioFillImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

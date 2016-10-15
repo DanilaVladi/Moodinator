@@ -19,9 +19,53 @@
     if (spotify.isRunning) {
         [spotify playTrack:trackID inContext:context];
         return YES;
-    } else {
-        return NO;
     }
+
+    return NO;
+}
+
++(BOOL)pause
+{
+    SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+    if (spotify.isRunning) {
+        [spotify pause];
+        return YES;
+    }
+
+    return NO;
+}
+
++(BOOL)resume
+{
+    SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+    if (spotify.isRunning) {
+        [spotify play];
+        return YES;
+    }
+
+    return NO;
+}
+
++(BOOL)nextTrack
+{
+    SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+    if (spotify.isRunning) {
+        [spotify nextTrack];
+        return YES;
+    }
+
+    return NO;
+}
+
++(BOOL)previousTrack
+{
+    SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+    if (spotify.isRunning) {
+        [spotify previousTrack];
+        return YES;
+    }
+
+    return NO;
 }
 
 @end

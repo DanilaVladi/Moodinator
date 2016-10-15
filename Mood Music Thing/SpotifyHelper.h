@@ -14,6 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (BOOL)playTrack:(NSString *)trackID inContext:(nullable NSString *)context;
 
++(BOOL)pause;
++(BOOL)resume;
+
++(BOOL)nextTrack;
++(BOOL)previousTrack;
+
 @end
 
 NS_ASSUME_NONNULL_END
