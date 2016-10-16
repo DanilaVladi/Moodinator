@@ -126,6 +126,7 @@ class ViewController: NSViewController, TrackObjectDelegate {
         task.resume()
     }
 
+    var timer: Timer?
     func imageLoaded(image: NSImage) {
         let popularity = currentlyPlaying!.popularity!/2/10
 
@@ -146,6 +147,12 @@ class ViewController: NSViewController, TrackObjectDelegate {
             self.albumCoverImageView.layer?.cornerRadius = 5
 
         }
+
+        timer = Timer(timeInterval: self.currentlyPlaying!.duration(), repeats: false, block: { timer in
+            self.songIsOver()
+        })
+
+        RunLoop.main.add(timer!, forMode: .defaultRunLoopMode)
     }
 
     func updateUI() {
@@ -157,6 +164,13 @@ class ViewController: NSViewController, TrackObjectDelegate {
 
             self.trackTitleLabel.stringValue = self.currentlyPlaying!.name!
             self.artistLabel.stringValue = self.currentlyPlaying!.artistName!
+        }
+    }
+
+    func songIsOver() {
+        print("songFinished")
+        if let currentEmotion = currentlyPlaying?.mood {
+            process(emotion: Emotion(rawValue: currentEmotion), strength: 1, nextSong: true)
         }
     }
 
@@ -176,6 +190,9 @@ class ViewController: NSViewController, TrackObjectDelegate {
 
     @IBAction func previousSongDidPush(_ sender: AnyObject) {
         if let lastPlayed = songPlaylist.last {
+            timer?.invalidate()
+            timer = nil
+
             songPlaylist.removeLast()
             self.currentlyPlaying = lastPlayed
             self.currentlyPlaying?.startDownload()
@@ -189,6 +206,12 @@ class ViewController: NSViewController, TrackObjectDelegate {
     var isPaused = false
     @IBAction func pauseButtonDidPush(_ sender: NSButton) {
         if isPaused {
+            timer = Timer(timeInterval: self.currentlyPlaying!.duration(), repeats: false, block: { timer in
+                self.songIsOver()
+            })
+
+            RunLoop.main.add(timer!, forMode: .defaultRunLoopMode)
+
             isPaused = false
             lastTrack.alphaValue = 1.0
             nextTrack.alphaValue = 1.0
@@ -196,6 +219,9 @@ class ViewController: NSViewController, TrackObjectDelegate {
             SpotifyHelper.resume()
         }
         else {
+            timer?.invalidate()
+            timer = nil
+
             isPaused = true
             lastTrack.alphaValue = 0
             nextTrack.alphaValue = 0

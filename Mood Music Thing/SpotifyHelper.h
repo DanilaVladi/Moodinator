@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 +(BOOL)nextTrack;
 +(BOOL)previousTrack;
 
++ (NSInteger)duration;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -68,4 +68,15 @@
     return NO;
 }
 
++ (NSInteger)duration
+{
+    SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+    if (spotify.isRunning && [spotify respondsToSelector: @selector(currentTrack)]) {
+        if ([spotify.currentTrack respondsToSelector:@selector(duration)])
+            return (spotify.currentTrack.duration/1000) - spotify.playerPosition;
+    }
+
+    return 0;
+}
+
 @end

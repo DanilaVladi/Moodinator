@@ -10,6 +10,7 @@ import Cocoa
 
 protocol TrackObjectDelegate: class {
     func imageLoaded(image: NSImage)
+    func songIsOver()
 }
 
 class TrackObject {
@@ -25,6 +26,13 @@ class TrackObject {
     var mood: String!
 
     var cover: NSImage?
+
+    private var timer: Timer?
+
+    func duration() -> TimeInterval {
+        print(TimeInterval(SpotifyHelper.duration()))
+        return TimeInterval(SpotifyHelper.duration())
+    }
 
     weak var delegate: TrackObjectDelegate?
 
@@ -62,6 +70,7 @@ class TrackObject {
         self.popularity = track["popularity"] as? Int
 
         self.mood = mood
+
     }
 
     func startDownload() {
