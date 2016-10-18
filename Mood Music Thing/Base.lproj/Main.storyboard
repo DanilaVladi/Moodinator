@@ -663,7 +663,7 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController showSeguePresentationStyle="single" id="B8D-0N-5wS" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -708,7 +708,7 @@
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dgS-0x-5A3">
                                         <rect key="frame" x="258" y="150" width="160" height="53"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="800" id="L5G-2p-mQz"/>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="790" id="L5G-2p-mQz"/>
                                         </constraints>
                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Loading" id="POi-bR-quC">
                                             <font key="font" size="44" name=".AppleSystemUIFont"/>
@@ -867,6 +867,17 @@
                                             <action selector="previousSongDidPush:" target="XfG-lQ-9wD" id="twy-9x-Adc"/>
                                         </connections>
                                     </button>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sEs-5D-5tR">
+                                        <rect key="frame" x="646" y="4" width="204" height="17"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="XlB-E5-qlg"/>
+                                        </constraints>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="S" id="Cs3-rk-pQ0">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="MK7-hZ-hIi" firstAttribute="centerY" secondItem="hkX-JZ-c5u" secondAttribute="centerY" id="66w-s5-u7b"/>
@@ -876,10 +887,12 @@
                                     <constraint firstItem="ccp-6k-jKQ" firstAttribute="bottom" secondItem="hkX-JZ-c5u" secondAttribute="bottom" id="aba-KT-woZ"/>
                                     <constraint firstItem="hkX-JZ-c5u" firstAttribute="centerY" secondItem="C6U-9X-VPU" secondAttribute="centerY" id="bAN-Lx-XDU"/>
                                     <constraint firstItem="MK7-hZ-hIi" firstAttribute="top" secondItem="hkX-JZ-c5u" secondAttribute="top" id="f0J-M0-7IX"/>
+                                    <constraint firstAttribute="trailing" secondItem="sEs-5D-5tR" secondAttribute="trailing" constant="4" id="fTW-QC-8SO"/>
                                     <constraint firstItem="hkX-JZ-c5u" firstAttribute="centerX" secondItem="C6U-9X-VPU" secondAttribute="centerX" id="fV8-1L-3n1"/>
                                     <constraint firstItem="MK7-hZ-hIi" firstAttribute="leading" secondItem="hkX-JZ-c5u" secondAttribute="trailing" constant="12" id="mM6-Y2-Mvb"/>
                                     <constraint firstItem="ccp-6k-jKQ" firstAttribute="centerY" secondItem="hkX-JZ-c5u" secondAttribute="centerY" id="nke-3x-sTM"/>
                                     <constraint firstItem="ccp-6k-jKQ" firstAttribute="top" secondItem="hkX-JZ-c5u" secondAttribute="top" id="vwy-IL-jMg"/>
+                                    <constraint firstAttribute="bottom" secondItem="sEs-5D-5tR" secondAttribute="bottom" constant="4" id="xAL-Ym-QGZ"/>
                                 </constraints>
                             </visualEffectView>
                         </subviews>
@@ -911,6 +924,7 @@
                         <outlet property="star3" destination="chc-ss-Xr3" id="kYL-P1-6h3"/>
                         <outlet property="star4" destination="tMQ-KQ-g3X" id="gPn-Te-SKC"/>
                         <outlet property="star5" destination="8IQ-x6-kaY" id="3iO-OU-Pvk"/>
+                        <outlet property="statusLabel" destination="sEs-5D-5tR" id="egW-ZG-nMJ"/>
                         <outlet property="trackTitleLabel" destination="dgS-0x-5A3" id="ypn-Wk-alU"/>
                     </connections>
                 </viewController>

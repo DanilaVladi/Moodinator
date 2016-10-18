@@ -2,8 +2,8 @@
 //  TrackObject.swift
 //  Mood Music Thing
 //
-//  Created by Vladimir Danila on 15/10/2016.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akers on 15/10/2016.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 import Cocoa
@@ -14,19 +14,18 @@ protocol TrackObjectDelegate: class {
 }
 
 class TrackObject {
-    var name: String?
-    var artistName: String?
-    var uri: String?
+    var name: String!
+    var artistName: String!
+    var uri: String!
 
-    var albumName: String?
-    var albumCoverURL: String?
+    var albumName: String!
+    var albumCoverURL: String!
 
-    var popularity: Int?
+    var popularity: Int!
 
     var mood: String!
 
     var cover: NSImage?
-
     private var timer: Timer?
 
     func duration() -> TimeInterval {

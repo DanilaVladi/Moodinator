@@ -2,8 +2,8 @@
 //  ApectRatioFillImageView.swift
 //  Mood Music Thing
 //
-//  Created by Vladimir Danila on 15/10/2016.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akers on 15/10/2016.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 import Cocoa

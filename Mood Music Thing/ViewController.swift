@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  Mood Music Thing
 //
-//  Created by Alexsander Akers on 10/15/16.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akers on 10/15/16.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 import AVFoundation
@@ -13,6 +13,8 @@ let SpotifyAccessTokenKey = "SpotifyAccessToken"
 var SpotifyAccessTokenKVOContext: UInt8 = 0
 
 class ViewController: NSViewController, TrackObjectDelegate {
+
+    @IBOutlet weak var statusLabel: NSTextField!
 
     @IBOutlet weak var lastTrack: NSButton!
     @IBOutlet weak var nextTrack: NSButton!
@@ -52,6 +54,7 @@ class ViewController: NSViewController, TrackObjectDelegate {
     }
 
     func process(emotion: Emotion, strength: Double, nextSong: Bool) {
+        print(emotion.rawValue)
         var emotion = emotion
 
         if isLocked && currentlyPlaying != nil {
@@ -271,13 +274,27 @@ class ViewController: NSViewController, TrackObjectDelegate {
         cameraView.layer = previewLayer
     }
 
+    // TODO: - Fill your api keys here... I'd recommend to use 3 for the best performance
+	let azureApiKeys: [String] = []
+    var lastKey = 0
     func recognizeImage(with data: Data) {
+		precondition(azureApiKeys.count != 0, "You have to fill in at least one Microsoft Cognitive Services Emotion Key")
+
+		if (azureApiKeys.count <= 2) {
+			print("I recommend to use at least 3 API keys for the best permormance. If you're on the free plan I encurage to use even more.")
+		}
+
         let url = URL(string: "https://api.projectoxford.ai/emotion/v1.0/recognize")!
         var request = URLRequest(url: url)
         request.httpBody = data
         request.httpMethod = "POST"
         request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
-        request.setValue("9cef9b071e4749b7baae22649c0f33d1", forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+        request.setValue(azureApiKeys[lastKey], forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+
+        lastKey += 1
+        if lastKey > 2 {
+            lastKey = 0
+        }
 
         let task = session.dataTask(with: request) { [weak self] data, response, error in
             guard let strongSelf = self,
@@ -288,6 +305,10 @@ class ViewController: NSViewController, TrackObjectDelegate {
             }
 
             if let faces = json as? [Any] {
+                DispatchQueue.main.async {
+                    strongSelf.statusLabel.stringValue = "F: " + String(faces.count)
+                }
+
                 let faceScores = faces.lazy
                     .flatMap { json in Face(json: json) }
                     .map { face in face.scores }
@@ -300,7 +321,18 @@ class ViewController: NSViewController, TrackObjectDelegate {
                     strongSelf.process(emotion: emotion, strength: score / Double(faceScores.count), nextSong: false)
                 }
             }
+            else {
+                let json = json as? [String : Any]
+                let error = json?["error"] as? [String : Any]
+                print(error)
+                DispatchQueue.main.async {
+                    if let errorMessage = error?["message"] as? String {
+                        strongSelf.statusLabel.stringValue = errorMessage
+                    }
+                }
+            }
         }
+
         task.resume()
     }
 

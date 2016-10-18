@@ -2,8 +2,8 @@
 //  SpotifyHelper.h
 //  Mood Music Thing
 //
-//  Created by Vladimir Danila on 15/10/2016.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akers on 15/10/2016.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -12,13 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SpotifyHelper : NSObject
 
-+ (BOOL)playTrack:(NSString *)trackID inContext:(nullable NSString *)context;
++ (void)playTrack:(NSString *)trackID inContext:(nullable NSString *)context;
 
-+(BOOL)pause;
-+(BOOL)resume;
++ (void)pause;
++ (void)resume;
 
-+(BOOL)nextTrack;
-+(BOOL)previousTrack;
++ (void)nextTrack;
++ (void)previousTrack;
 
 + (NSInteger)duration;
 

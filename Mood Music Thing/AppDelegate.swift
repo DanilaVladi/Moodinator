@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Mood Music Thing
 //
-//  Created by Alexsander Akers on 10/15/16.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akers on 10/15/16.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 import Cocoa

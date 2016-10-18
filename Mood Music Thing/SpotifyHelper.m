@@ -2,8 +2,8 @@
 //  SpotifyHelper.m
 //  Mood Music Thing
 //
-//  Created by Vladimir Danila on 15/10/2016.
-//  Copyright © 2016 Alexsander Akers. All rights reserved.
+//  Created by Vladimir Danila & Alexsander Akersa on 15/10/2016.
+//  Copyright © 2016 Vladimir Danila & Alexsander Akers. All rights reserved.
 //
 
 #import <ScriptingBridge/ScriptingBridge.h>
@@ -13,70 +13,77 @@
 
 @implementation SpotifyHelper
 
-+ (BOOL)playTrack:(NSString *)trackID inContext:(NSString *)context
++ (void)playTrack:(NSString *)trackID inContext:(NSString *)context
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning) {
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
+
         [spotify playTrack:trackID inContext:context];
-        return YES;
-    }
-
-    return NO;
 }
 
-+(BOOL)pause
++ (void)pause
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning) {
-        [spotify pause];
-        return YES;
-    }
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
 
-    return NO;
+	[spotify pause];
 }
 
-+(BOOL)resume
++ (void)resume
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning) {
-        [spotify play];
-        return YES;
-    }
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
 
-    return NO;
+	[spotify play];
 }
 
-+(BOOL)nextTrack
++ (void)nextTrack
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning) {
-        [spotify nextTrack];
-        return YES;
-    }
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
 
-    return NO;
+	[spotify nextTrack];
 }
 
-+(BOOL)previousTrack
++ (void)previousTrack
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning) {
-        [spotify previousTrack];
-        return YES;
-    }
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
 
-    return NO;
+	[spotify previousTrack];
 }
 
 + (NSInteger)duration
 {
     SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
-    if (spotify.isRunning && [spotify respondsToSelector: @selector(currentTrack)]) {
+	if (!spotify.isRunning)
+		[self.class lauchSpotify];
+
+	if ([spotify respondsToSelector: @selector(currentTrack)]) {
         if ([spotify.currentTrack respondsToSelector:@selector(duration)])
             return (spotify.currentTrack.duration/1000) - spotify.playerPosition;
     }
 
     return 0;
+}
+
++ (void)lauchSpotify
+{
+	SpotifyApplication *spotify = [SBApplication applicationWithBundleIdentifier:@"com.spotify.client"];
+	if (!spotify.isRunning) {
+		NSAppleScript *script = [[NSAppleScript alloc]
+								 initWithSource:@"tell app \"Spotify\" to launch"];
+		NSDictionary *errorInfo;
+		[script executeAndReturnError:&errorInfo];
+		if (errorInfo) {
+			NSLog(@"error: %@", errorInfo);
+		}
+	}
 }
 
 @end
